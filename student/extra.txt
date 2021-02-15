@@ -1,0 +1,108 @@
+      // name of folder in which we will store data
+        $folder = "../student_photo/";
+
+        $filename = $photo['name'];
+        $tempname = $photo['tmp_name'];
+
+        //giving path to the store data
+        $folder = "../student_photo/". $filename;  
+        
+        // to upload file in folder
+        move_uploaded_file($tempname,$folder);
+        
+        //insert query
+        $sql = "INSERT INTO `student_info` (`id`, `student_name`, `photo`, `student_email`, `department`, `sem`, `gender`, `dob`, `address1`, `address2`, `city`, `state`, `country`, `fee_type`) VALUES ('$enr_num', '$name', '$folder', ' $email', '$field', '$sem ', '$gender ',' $date', ' $address1', '$address2', '$city', ' $state', ' $country', ' $fees')";
+        //execute query
+        $result =mysqli_query($conn,$sql);
+        $sql2 = "INSERT INTO `authentication`(`id`, `email`, `is_admin`, `is_faculty`, `is_student`) VALUES ('$enr_num',' $email',0,0,1)";
+        $result2 = mysqli_query($conn,$sql2);
+        if($result && $result2)
+        {
+            header('location:studentlist.php');
+            exit;
+        }
+        else{
+            echo "no";
+            header('location:addstudents.php');
+        }
+        
+    }
+    else{
+       
+        header('location:addstudents.php');
+    }
+       
+          echo "<tr>";
+              echo "<td>" . $row['id'] . "</td>";
+              echo "<td>" . $row['student_name'] . "</td>";
+              echo "<td>" . $row['department'] . "</td>";
+              echo "<td>" . $row['gender'] . "</td>";
+              echo "<td>" . $row['dob'] . "</td>"; 
+          echo "</tr>";
+
+
+
+          if(isset($_get['submit']))
+  {
+    $sem = $_get['sem'];
+    $field = $get['field'];
+    echo $sem;
+    $sql = "SELECT `id`, `student_name`,  `department`,  `gender`, `dob` FROM `student_info` WHERE sem=$sem and department='$field'";
+    $result = mysqli_query($conn,$sql);
+  }
+  
+        <center>
+        <div class="col-12 grid-margin">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title" class="fab fa-accusoft"> <i class="fab fa-accusoft"></i> New Subject</h2>
+        <form id="demo-form2" action="viewstudent.php" method="get" data-parsley-validate class="form-horizontal form-label-left">
+
+
+<!-- department -->
+<div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Department <span class="required">*</span></label>
+                      <div class="col-md-6 col-sm-6">
+                        <select name="field" class="form-control" required>
+                          <option value="computer">Computer</option>
+                          <option value="computer science">Computer Science</option>
+                          <option value="it">IT</option>
+                          <option value="mechanical">Mechanical</option>
+                          <option value="civil">Civil</option>
+                        </select>
+                      </div>
+</div>
+<!-- sem -->
+<div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Sem  <span class="required">*</span></label>
+                      <div class="col-md-6 col-sm-6">
+                        <select name="sem" class="form-control" required>
+                          <option value="1">sem1</option>
+                          <option value="2">sem2</option>
+                          <option value="3">sem3</option>
+                          <option value="4">sem4</option>
+                          <option value="5">sem5</option>
+                          <option value="6">sem6</option>
+                          <option value="7">sem7</option>
+                          <option value="8">sem8</option>
+                        </select>
+                      </div>
+</div>
+
+<!-- subject -->
+ 
+
+
+<div class="ln_solid"></div>
+<div class="item form-group">
+  <div class="col-md-6 col-sm-6 offset-md-3">
+    
+    <button type="submit" name="submit" class="btn btn-success">Search</button>
+  </div>
+</div>
+
+</form>
+</div>
+  </div>
+</div>
+</center>
